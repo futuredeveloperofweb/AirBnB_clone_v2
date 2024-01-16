@@ -24,63 +24,66 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """Initialize a new DBStorage instance."""
-        # Set up the SQLAlchemy engine with database connection details
-        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".
-                                      format(getenv("HBNB_MYSQL_USER"),
-                                             getenv("HBNB_MYSQL_PWD"),
-                                             getenv("HBNB_MYSQL_HOST"),
-                                             getenv("HBNB_MYSQL_DB")),
+        user = getenv("HBNB_MYSQL_USER")
+        passwd = getenv("HBNB_MYSQL_PWD")
+        db = getenv("HBNB_MYSQL_DB")
+        host = getenv("HBNB_MYSQL_HOST")
+        env = getenv("HBNB_ENV")
+
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
+                                      .format(user, passwd, host, db),
                                       pool_pre_ping=True)
-        # Drop all tables if in test environment
-        if getenv("HBNB_ENV") == "test":
+
+        if env == "test":
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """Query on the current database session for objects.
-
-        If cls is None, queries all types of objects.
-
-        Args:
-            cls (str or type): The class to query.
-
-        Returns:
-            dict: A dictionary in the format <class name>.<object id> = object.
+        """returns a dictionary
+        Return:
+            returns a dictionary of __object
         """
-        # List of classes to query
-        classes = [State, City, User, Place, Review, Amenity]
-        # If cls is None, query all types of objects
-        if cls is None:
-            objs = []
-            for c in classes:
-                objs.extend(self.__session.query(c).all())
-        else:
-            if type(cls) == str:
+        dic = {}
+        if cls:
+            if type(cls) is str:
                 cls = eval(cls)
-            objs = self.__session.query(cls).all()
-        return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
+            query = self.__session.query(cls)
+            for elem in query:
+                key = "{}.{}".format(type(elem).__name__, elem.id)
+                dic[key] = elem
+        else:
+            classes = [State, City, User, Place, Review, Amenity]
+            for class_obj in classes:
+                query = self.__session.query(class_obj)
+                for elem in query:
+                    key = "{}.{}".format(type(elem).__name__, elem.id)
+                    dic[key] = elem
+        return (dic)
 
     def new(self, obj):
-        """Add obj to the current database session."""
+        """add a new element in the table
+        """
         self.__session.add(obj)
 
     def save(self):
-        """Commit all changes to the current database session."""
+        """save changes
+        """
         self.__session.commit()
 
     def delete(self, obj=None):
-        """Delete obj from the current database session."""
-        if obj is not None:
-            self.__session.delete(obj)
+        """delete an element in the table
+        """
+        if obj:
+            self.session.delete(obj)
 
     def reload(self):
-        """Create all tables in the database and initialize a new session."""
+        """configuration
+        """
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
-        Session = scoped_session(session_factory)
+        sec = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(sec)
         self.__session = Session()
 
     def close(self):
-        """Close the working SQLAlchemy session."""
+        """ calls remove()
+        """
         self.__session.close()
