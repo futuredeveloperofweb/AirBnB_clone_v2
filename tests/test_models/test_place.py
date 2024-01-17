@@ -1,53 +1,69 @@
 #!/usr/bin/python3
 """ Unittest for class Place"""
-import unittest
+from tests.test_models.test_base_model import test_basemodel
 from models.place import Place
-from models.amenity import Amenity
-from models.base_model import BaseModel
-from datetime import datetime
 
 
-class TestPlace(unittest.TestCase):
-    """Test cases for Place class"""
+class test_Place(test_basemodel):
+    """ """
 
-    def test_inheritance(self):
-        """Test if Place inherits from BaseModel"""
-        new_place = Place()
-        self.assertIsInstance(new_place, BaseModel)
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "Place"
+        self.value = Place
 
-    def test_attributes(self):
-        """Test the attributes of Place"""
-        new_place = Place()
-        self.assertTrue(hasattr(new_place, 'city_id'))
-        self.assertTrue(hasattr(new_place, 'user_id'))
-        self.assertTrue(hasattr(new_place, 'name'))
-        self.assertTrue(hasattr(new_place, 'description'))
-        self.assertTrue(hasattr(new_place, 'number_rooms'))
-        self.assertTrue(hasattr(new_place, 'number_bathrooms'))
-        self.assertTrue(hasattr(new_place, 'max_guest'))
-        self.assertTrue(hasattr(new_place, 'price_by_night'))
-        self.assertTrue(hasattr(new_place, 'latitude'))
-        self.assertTrue(hasattr(new_place, 'longitude'))
-        self.assertTrue(hasattr(new_place, 'amenity_ids'))
+    def test_city_id(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.city_id), str)
 
-    def test_relationships(self):
-        """Test the relationships of Place"""
-        new_place = Place()
-        self.assertTrue(hasattr(new_place, 'reviews'))
-        self.assertTrue(hasattr(new_place, 'amenities'))
+    def test_user_id(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.user_id), str)
 
-    def test_amenities_property(self):
-        """Test amenities property"""
-        new_place = Place()
-        self.assertEqual(new_place.amenities, [])
-        amenity1 = Amenity()
-        amenity2 = Amenity()
+    def test_name(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.name), str)
 
-        new_place.amenities.append(amenity1)
-        new_place.amenities.append(amenity2)
+    def test_description(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.description), str)
 
-        self.assertEqual(new_place.amenities, [amenity1, amenity2])
+    def test_number_rooms(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.number_rooms), int)
 
+    def test_number_bathrooms(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.number_bathrooms), int)
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_max_guest(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.max_guest), int)
+
+    def test_price_by_night(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.price_by_night), int)
+
+    def test_latitude(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.latitude), float)
+
+    def test_longitude(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.latitude), float)
+
+    def test_amenity_ids(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.amenity_ids), list)
