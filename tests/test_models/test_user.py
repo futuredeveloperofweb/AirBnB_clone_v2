@@ -32,3 +32,14 @@ class test_User(test_basemodel):
         """ """
         new = self.value()
         self.assertEqual(type(new.password), str)
+
+class test_inherit_basemodel(unittest.TestCase):
+    '''check if User is a subclass of BaseModel'''
+    def test_instance(self):
+        user = Amenity()
+        self.assertIsInstance(user, Amenity)
+        self.assertTrue(issubclass(type(user), BaseModel))
+
+
+if __name__ == "__main__":
+    unittest.main()
