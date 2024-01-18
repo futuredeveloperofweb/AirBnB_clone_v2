@@ -17,3 +17,12 @@ class test_Amenity(test_basemodel):
         """ """
         new = self.value()
         self.assertEqual(type(new.name), str)
+
+class test_inherit_basemodel(unittest.TestCase):
+    '''check if Amenity is a subclass of BaseModel'''
+    def test_instance(self):
+        user = Amenity()
+        self.assertIsInstance(user, Amenity)
+        self.assertTrue(issubclass(type(user), BaseModel))
+        self.assertEqual(str(type(user)),
+                "<class 'models.amenity.Amenity'>")
