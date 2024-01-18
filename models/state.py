@@ -5,10 +5,8 @@ import models
 import shlex
 from os import getenv
 from models.city import City
-from sqlalchemy import Column
-from sqlalchemy import String
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
 
 
 class State(BaseModel, Base):
@@ -16,15 +14,15 @@ class State(BaseModel, Base):
     __tablename__ = "states"
 
     name = Column(String(128), nullable=False)
-    cities = relationship("City", backref="state",
-                          cascade="all, delete-orphan")
+    cities_relation = relationship("City", backref="state",
+                                   cascade="all, delete-orphan")
 
     @property
     def cities(self):
         """Get a list of all related City objects."""
         var = models.storage.all()
-        city_list = []  # Changed variable name from 'l' to 'city_list'
-        result = []  # Changed variable name from 'rs' to 'result'
+        city_list = []
+        result = []
 
         for key in var:
             city_key = key.replace('.', ' ')
