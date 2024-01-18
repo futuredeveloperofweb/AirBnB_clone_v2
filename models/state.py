@@ -17,20 +17,23 @@ class State(BaseModel, Base):
 
     name = Column(String(128), nullable=False)
     cities = relationship("City", backref="state",
-                cascade="all, delete-orphan")
+                          cascade="all, delete-orphan")
 
     @property
     def cities(self):
         """Get a list of all related City objects."""
         var = models.storage.all()
-        l = []
-        rs = []
-        for ky in vr:
-            ct = ky.replace('.', ' ')
-            ct = shlex.split(ct)
-            if (ct[0] == 'City'):
-                lista.append(var[ky])
-        for x in l:
-            if (x.state_id == self.id):
-                result.append(x)
-        return (rs)
+        city_list = []  # Changed variable name from 'l' to 'city_list'
+        result = []  # Changed variable name from 'rs' to 'result'
+
+        for key in var:
+            city_key = key.replace('.', ' ')
+            city_key = shlex.split(city_key)
+            if city_key[0] == 'City':
+                city_list.append(var[key])
+
+        for city in city_list:
+            if city.state_id == self.id:
+                result.append(city)
+
+        return result
