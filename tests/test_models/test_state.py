@@ -174,7 +174,3 @@ class TestState(unittest.TestCase):
         self.assertEqual(self.state.updated_at.isoformat(),
                          state_dict["updated_at"])
         self.assertEqual(self.state.name, state_dict["name"])
-
-
-if __name__ == "__main__":
-    unittest.main()
