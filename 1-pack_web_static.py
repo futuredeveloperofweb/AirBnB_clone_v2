@@ -1,37 +1,31 @@
 #!/usr/bin/python3
-# Fabfile to generate a .tgz archive from the contents of web_static.
+# A Fabric script that generates a .tgz archive from the contents
+# of the web_static folder of your AirBnB Clone repo, using the
+# function do_pack
+
 import os.path
 from datetime import datetime
 from fabric.api import local
 
 
 def do_pack():
-    """
-    Create a tar gzipped archive of the directory web_static.
+    '''
+    create a tar to collect all the files in web_static folder in one
+    archive file
 
     Returns:
-        str: Path to the generated archive on success, None on failure.
-    """
-    # Get the current UTC time
-    dt = datetime.utcnow()
+        archive path if the archive has been correctly generated,
+        otherwise; it should return None
+    '''
+    d = datetime.utcnow()
 
-    # Generate a filename based on the current date and time
-    file_name = "versions/web_static_{}{}{}{}{}{}.tgz".format(dt.year,
-                                                              dt.month,
-                                                              dt.day,
-                                                              dt.hour,
-                                                              dt.minute,
-                                                              dt.second)
+    f_n = 'versions/web_static_{}{}{}{}{}{}.tgz'
+    .format(d.year, d.month, d.day, d.hour, d.minute, d.second)
 
-    # Create the 'versions' directory if it doesn't exist
-    if os.path.isdir("versions") is False:
-        # Create 'versions' directory, return None on failure
-        if local("mkdir -p versions").failed is True:
+    if os.path.isdir('versions') is False:
+        if local('mkdir -p versions').failed is True:
             return None
 
-    # Create a tar gzipped archive of the 'web_static' directory
-    if local("tar -cvzf {} web_static".format(file_name)).failed is True:
+    if local('tar -cvzf {} web_static'.format(f_n)).failed is True:
         return None
-
-    # Return the path to the generated archive
-    return file_name
+    return f_n
