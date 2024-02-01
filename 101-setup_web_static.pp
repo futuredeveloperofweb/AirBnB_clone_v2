@@ -1,6 +1,5 @@
-# Puppet for setup
+# Reding the task #0 but by using Puppet
 
-# Nginx configuration file
 $nginx_conf = "server {
     listen 80 default_server;
     listen [::]:80 default_server;
