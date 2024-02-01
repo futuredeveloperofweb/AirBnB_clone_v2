@@ -64,8 +64,8 @@ def do_deploy(archive_path):
 
 def deploy():
     ''' creates and distributes an archive '''
-    try:
-        path = do_pack()
+    path = do_pack()
+    if path:
         return do_deploy(path)
-    except:
+    else:
         return False
