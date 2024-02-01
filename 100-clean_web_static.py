@@ -70,6 +70,7 @@ def deploy():
     else:
         return False
 
+
 def do_clean(number=0):
     ''' deletes out-of-date archives '''
     archives = os.listdir('versions/')
@@ -79,13 +80,14 @@ def do_clean(number=0):
         start += 1
     if start < len(archives):
         archives = archives[start:]
-    else:                                                                    archives = []
+    else:
+        archives = []
     for archive in archives:
         os.unlink('versions/{}'.format(archive))
     cmd_parts = [
-            "rm -rf $(",
-            "find /data/web_static/releases/ -maxdepth 1 -type d -iregex",
-            " '/data/web_static/releases/web_static_.*'",
-            " | sort -r | tr '\\n' ' ' | cut -d ' ' -f{}-)".format(start + 1)
+        "rm -rf $(",
+        "find /data/web_static/releases/ -maxdepth 1 -type d -iregex",
+        " '/data/web_static/releases/web_static_.*'",
+        " | sort -r | tr '\\n' ' ' | cut -d ' ' -f{}-)".format(start + 1)
     ]
     run(''.join(cmd_parts))
