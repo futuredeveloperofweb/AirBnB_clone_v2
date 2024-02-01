@@ -9,10 +9,12 @@ from fabric.api import local
 
 def do_pack():
     """
-    Create a tar gzipped archive of the directory web_static.
+    All files in the folder web_static must be added to the final
+    archive
 
     Returns:
-        str: Path to the generated archive on success, None on failure.
+        the archive path if the archive has been correctly generated.
+        Otherwise, it should return None
     """
     dt = datetime.utcnow()
 
