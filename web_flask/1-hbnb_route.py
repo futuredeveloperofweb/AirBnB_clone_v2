@@ -15,7 +15,7 @@ def hello():
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
     '''display “HBNB”'''
-    return 'HBHB'
+    return 'HBNB'
 
 
 if __name__ == '__main__':
