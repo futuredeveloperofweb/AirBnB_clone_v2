@@ -4,6 +4,7 @@ from flask import Flask
 from models import storage
 from flask import render_template
 from models import *
+from sqlalchemy.orm import scoped_session, sessionmaked
 
 
 app = Flask(__name__)
@@ -12,12 +13,12 @@ app = Flask(__name__)
 @app.route('/states_list', strict_slashes=False)
 def state():
     '''display a HTML page: (inside the tag BODY)'''
-    states = sorted(list(storage.all("State").values()),
-                    key=lambda x: x.name)
+    states = sorted(storage.all(State).values()),
+                    key = lambda x: x.name)
     return render_template('7-states_list.html', states=states)
 
 
-@app.teardown_appcontext
+@ app.teardown_appcontext
 def teardown_db(exc):
     '''Call in this method storage.close()'''
     storage.close()
